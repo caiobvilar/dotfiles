@@ -12,7 +12,7 @@ my dotfiles for easy reconfiguration
 * Dropbox - cloud for storing files
 * Joplin - notes and stuff
 * Knotes - quick note taking
-* Alacritty - terminal emulator
+* [Kitty](https://sw.kovidgoyal.net/kitty/) - Terminal Emulator
 * VsCode - IDE
 * Telegram - chatting
 * TexStudio - LaTeX editor
@@ -23,7 +23,18 @@ my dotfiles for easy reconfiguration
 * Blender - 3D Modeling in general
 * GIMP - Image editor
 
-
 ## TODO
 
-* Script to install polybar/i3/bspwm and copy all configurations to their corresponding correct places.
+* Script to install polybar/i3/bspwm and copy all configurations to their 
+corresponding correct places.
+
+## References
+
+* [Husseinhareb's Dotfiles for i3](https://sw.kovidgoyal.net/kitty/)
+* [Husseinhareb's Awesome Dotfiles](https://sw.kovidgoyal.net/kitty/)
+* Firefox's addons:
+    * uBlock Origin
+    * Youtube AutoHD
+    * BitWarden
+    * Reddit Enhancement Suite
+    * Simple Tab Groups
