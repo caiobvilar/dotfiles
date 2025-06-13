@@ -1,0 +1,2 @@
+# Why do people get married?
+We marry because we need a witness to our lives. There’s 8 billion people on the planet. I mean, what does any one life really mean? But in a marriage, you’re promising to care about everything. The good things, the bad things, the terrible things, the mundane things, all of it, all of the time, every day. You’re saying ‘Your life will not go unnoticed because I will notice it. Your life will not go un-witnessed because I will be your witness’.
