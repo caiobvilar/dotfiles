@@ -1,0 +1,10 @@
+[
+  {
+    "command": "jop-freehand-drawing-jsdraw-plugin-insertDrawing",
+    "accelerator": null
+  },
+  {
+    "command": "CreateBackup",
+    "accelerator": "Ctrl+Alt+B"
+  }
+]
