@@ -1,0 +1,162 @@
+{
+    "layer": "top", // Waybar at top layer
+    "position": "bottom", // Waybar position (top|bottom|left|right)
+    "output": "DP-1",
+    "height": 24, // Waybar height (to be removed for auto height) minimum is 24
+    "width": 1920, // Waybar width
+    "spacing": 2, // Gaps between modules (4px)
+    // Choose the order of the modules
+    "modules-left": ["sway/workspaces"],
+    "modules-center": ["custom/power#GPU","custom/fan#GPU", "temperature#gpu"],
+    "modules-right": [
+                    "idle_inhibitor",
+                    "clock",
+                    "pulseaudio",
+                    "cpu",
+                    "memory",
+                    "temperature#cpu",
+                    "custom/fan#AIO",
+                    "custom/fan#RearChassis",
+                    "custom/fan#FrontUp",
+                    "custom/fan#FrontDown",
+                    "systemd-failed-units",
+                    "keyboard-state",
+                    "sway/language",
+                    "tray",
+                    "custom/power"
+                    ],
+    "systemd-failed-units": {
+	      "hide-on-ok": false, // Do not hide if there is zero failed units.
+	      "format": "✗ {nr_failed}",
+      	"format-ok": "✓",
+      	"system": true, // Monitor failed systemwide units.
+      	"user": false // Ignore failed user units.
+      },
+    "sway/workspaces": {
+         "disable-scroll": true,
+         "all-outputs": true,
+         "warp-on-scroll": false,
+         "format": "{name}: {icon}",
+         "format-icons": {
+             "1": "",
+             "2": "",
+             "3": "",
+             "4": "",
+             "5": "",
+             "urgent": "",
+             "focused": "",
+             "default": ""
+         }
+     },
+    "keyboard-state": {
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": ""
+        },
+    "start-activated": true
+    },
+    "tray": {
+       "icon-size": 21,
+        "spacing": 10
+    },
+    "clock": {
+        "timezone": "America/Sao_Paulo",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%H:%M -- %A, %d/%m/%Y}"
+    },
+    "cpu": {
+        "format": "{usage}% ",
+        "tooltip": false,
+        "interval": 0.5
+    },
+    "memory": {
+        "format": "{0}% ",
+       "interval": 0.5
+    },
+    "custom/power":{
+        "format": "{icon}",
+        "format-icons": ["󰐥"],
+        "on-click": "swaynag -t warning -m 'Power Menu Options' -b 'Shutdown'  'shutdown -h now' -b 'Restart' 'shutdown -r now' -b 'Logout' 'swaymsg exit' -b 'Hibernate' 'systemctl hibernate' --background=#005566 --button-background=#009999 --button-border=#002b33 --border-bottom=#002b33"
+    },
+    "temperature#cpu": {
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 95,
+        "interval": 0.5,
+        "format-critical": "CPU {temperatureC}°C {icon}",
+        "format": "CPU {temperatureC}°C {icon}",
+        "format-icons": ["", "", ""]
+    },
+    "custom/fan#AIO": {
+      "exec": "sensors | awk '/fan6:/ {print $2}'",
+      "format": "AIO {icon} {0} RPM",
+      "format-icons": [""],
+      "interval": 1.0,
+    },
+    "custom/fan#RearChassis": {
+      "exec": "sensors | grep fan1 | awk 'NR==1{print $2}'",
+      "format": "Rear {icon} {0} RPM",
+      "format-icons": ["󰈐 "],
+      "interval": 1.0,
+    },
+    "custom/fan#FrontUp": {
+      "exec": "sensors | grep fan3 | awk 'NR==1{print $2}'",
+      "format": "Front D {icon} {0} RPM",
+      "format-icons": ["󰈐 "],
+      "interval": 1.0,
+    },
+    "custom/fan#FrontDown": {
+      "exec": "sensors | grep fan4 | awk 'NR==1{print $2}'",
+      "format": "Front U {icon} {0} RPM",
+      "format-icons": ["󰈐 "],
+      "interval": 1.0,
+    },
+    "custom/power#GPU": {
+      "exec": "sensors | grep PPT | awk 'NR==1{print $2}'",
+      "format": "GPU {icon} {0} W",
+      "format-icons": [""],
+      "interval": 1.0,
+    },
+    "custom/fan#GPU": {
+      "exec": "sensors | grep fan1 | awk 'NR==2{print $2}'",
+      "format": "GPU {icon} {0} RPM",
+      "format-icons": ["󰈐 "],
+      "interval": 1.0,
+    },
+    "temperature#gpu": {
+        "hwmon-path": "/sys/class/hwmon/hwmon1/temp2_input",
+        "critical-threshold": 95,
+        "interval": 0.5,
+        "format-critical": "GPU {temperatureC}°C {icon}",
+        "format": "GPU {temperatureC} °C {icon}",
+        "format-icons": ["", "", ""]
+    },
+    "pulseaudio": {
+        // "scroll-step": 1, // %, can be a float
+        "format": "{volume}% {icon} {format_source}",
+        "format-bluetooth": "{volume}% {icon} 󰂯 {format_source}",
+        "format-bluetooth-muted": "󰂲 {icon} 󰂯 {format_source}",
+        "format-muted": "{format_source} 󰖁",
+        "format-source": "{volume}% 󰍬",
+        "format-source-muted": "󰍭",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "󰋎",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["󱄠"]
+        },
+        "on-click": "pavucontrol"
+    },
+}
+

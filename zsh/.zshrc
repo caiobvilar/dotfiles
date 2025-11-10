@@ -105,6 +105,6 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias vim="nvim"
-export catkin_DIR=~/Development/ros_catkin_ws/install/share/catkin/cmake
-export CMAKE_PREFIX_PATH=~/Development/ros_catkin_ws/install:$CMAKE_PREFIX_PATH
-
+export CMAKE_PREFIX_PATH=~/Development/ros_catkin_ws/devel_isolated:$CMAKE_PREFIX_PATH
+export catkin_DIR=~/Development/ros_catkin_ws/devel_isolated/catkin/share/catkin/cmake
+export GTK_THEME=Adwaita-dark # Change Evolution Mail theme
