@@ -108,3 +108,6 @@ alias vim="nvim"
 export CMAKE_PREFIX_PATH=~/Development/ros_catkin_ws/devel_isolated:$CMAKE_PREFIX_PATH
 export catkin_DIR=~/Development/ros_catkin_ws/devel_isolated/catkin/share/catkin/cmake
 export GTK_THEME=Adwaita-dark # Change Evolution Mail theme
+export PATH="$HOME/.local/bin:$PATH"
+export GRB_LICENSE_FILE="/opt/gurobi_v1203/licenses/gurobi.lic"
+export LD_LIBRARY_PATH=/opt/gurobi_v1203/lib:$LD_LIBRARY_PATH
