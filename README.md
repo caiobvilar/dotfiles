@@ -10,9 +10,9 @@ my dotfiles for easy reconfiguration
 * Steam - games
 * Spotify - music
 * Dropbox - cloud for storing files
-* Joplin - notes and stuff
+* Obsidian - notes and stuff
 * Knotes - quick note taking
-* [Kitty](https://sw.kovidgoyal.net/kitty/) - Terminal Emulator
+* Foot - Terminal Emulator
 * VsCode - IDE
 * Telegram - chatting
 * TexStudio - LaTeX editor

@@ -20,8 +20,8 @@ while IFS= read -r line; do
 done <<<"$OUTPUT"
 
 if [[ -n "$PCT" && "$PCT" -ge 0 && "$PCT" -le 100 ]]; then
-  echo "Ath-M50xBT: ${PCT}%"
+  echo "${PCT}"
   exit 0
 fi
 
-echo "Ath-M50xBT: battery data not available via bluetoothctl"
+echo "not connected"
