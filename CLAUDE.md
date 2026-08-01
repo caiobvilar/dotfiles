@@ -34,7 +34,13 @@ suite — changes are validated by reloading the relevant WM/bar/shell, not by r
   (2026-08-01). `zsh/.zshrc` is the main shell entrypoint (real secrets are redacted to
   placeholders before committing — see Conventions below); `zsh/.zsh_functions/` holds a vendored
   completion script (`_alacritty`), not something sourced live from `~/.zshrc`.
-- `.fonts/` — vendored Nerd Font files (large binaries), not meant to be hand-edited.
+- `.fonts/` — vendored Nerd Font packages (large binaries, not meant to be hand-edited), kept
+  in-repo rather than fetched from upstream on each install. Run `.fonts/install.sh` on a fresh
+  machine to copy them into `~/.local/share/fonts/dotfiles` and refresh the fontconfig cache; see
+  `.fonts/README.md` for per-package upstream links/licenses. Currently vendors
+  `NerdFonts-JetBrainsMono` (the font actually installed on this host, in `~/.local/share/fonts`),
+  plus `NerdFonts-0xProto` and `NerdFonts-SymbolsOnly` (carried over from an earlier host — not
+  currently installed live, kept for reference/future use).
 - `random_scripts/` — standalone utilities unrelated to WM config (`backup_vps.sh`,
   `download_mdp_full_issues.py`).
 - `Notes/` — a personal Obsidian/Joplin notes vault (career, PhD, personal, knowledge-base notes).
