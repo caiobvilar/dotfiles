@@ -1,7 +1,7 @@
 [{
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
-    "output": "DP-1",
+    "output": "HDMI-A-1",
     "height": 25, // Waybar height (to be removed for auto height) minimum is 24
     "width": 1920, // Waybar width
     "spacing": 2, // Gaps between modules (4px)
@@ -31,7 +31,7 @@
       },
   "custom/notification": {
     "tooltip": true,
-    "format": "<span size='16pt'>{icon}</span>",
+    "format": "<span size='10pt'>{icon}</span>",
     "format-icons": {
       "notification": "󱅫",
       "none": "󰂜",
@@ -49,8 +49,6 @@
     "on-click-right": "swaync-client -d -sw",
     "escape": true
   },
-
-
      "custom/power#CPU":
      {
         "exec": "python3 ~/.config/sway/scripts/ryzen-power.py",
@@ -64,11 +62,6 @@
          "warp-on-scroll": false,
          "format": "{name}: {icon}",
          "format-icons": {
-             "1": "",
-             "2": "",
-             "3": "",
-             "4": "",
-             "5": "",
              "urgent": "",
              "focused": "",
              "default": ""
@@ -92,7 +85,7 @@
     },
     "tray": {
        "icon-size": 21,
-        "spacing": 20
+        "spacing": 30
     },
     "clock": {
         "timezone": "America/Sao_Paulo",
@@ -100,9 +93,9 @@
         "format": "{:%H:%M -- %A, %d/%m/%Y}"
     },
     "cpu": {
-        "format": "{usage}% ",
+        "format": "{usage:02d}% ",
         "tooltip": false,
-        "interval": 0.5
+        "interval": 1.0
     },
     "memory": {
         "format": "{0}% ",
@@ -168,7 +161,7 @@
 {
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
-    "output": "HDMI-A-1",
+    "output": "DP-1",
     "height": 25, // Waybar height (to be removed for auto height) minimum is 24
     "width": 1080, // Waybar width
     "spacing": 2, // Gaps between modules (4px)
@@ -187,11 +180,6 @@
          "warp-on-scroll": false,
          "format": "{name}: {icon}",
          "format-icons": {
-             "1": "",
-             "2": "",
-             "3": "",
-             "4": "",
-             "5": "",
              "urgent": "",
              "focused": "",
              "default": ""

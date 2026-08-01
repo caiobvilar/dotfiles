@@ -250,6 +250,7 @@ label:focus {
 }
 
 #custom-power {
+  margin-left: 12px;
   background-color: #f20018;
   padding-right: 15px;
   padding-left: 15px;
@@ -433,5 +434,6 @@ label:focus {
 }
 
 #custom-notification {
+  margin-right: 12px;
   font-family: "NotoSansMono Nerd Font";
 }

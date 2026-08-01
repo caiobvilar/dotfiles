@@ -9,8 +9,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="darkblood"
-
-# Set list of themes to pick from when loading at random
+# Set list of themes to pthick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
@@ -29,7 +28,7 @@ ZSH_THEME="darkblood"
 # zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
- zstyle ':omz:update' frequency 5
+# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -41,7 +40,7 @@ ZSH_THEME="darkblood"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -60,7 +59,7 @@ ENABLE_CORRECTION="true"
 # "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
 # or set a custom format using the strftime function format specifications,
 # see 'man strftime' for details.
-HIST_STAMPS="dd/mm/yyyy - H:M:S"
+# HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
@@ -70,25 +69,29 @@ HIST_STAMPS="dd/mm/yyyy - H:M:S"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git
-         zsh-autosuggestions
-         zsh-syntax-highlighting
-         zsh-autocomplete)
-
+plugins=(
+  git
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  zsh-autocomplete
+)
 source $ZSH/oh-my-zsh.sh
+export PATH="$PATH:/snap/bin"
+export HF_TOKEN=your_huggingface_token_here
 
 # User configuration
 
-export MANPATH="/usr/local/man:$MANPATH"
+# export MANPATH="/usr/local/man:$MANPATH"
+
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
+# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='nvim'
-else
-   export EDITOR='vim'
-fi
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='nvim'
+# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
@@ -104,16 +107,21 @@ fi
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias vim="nvim"
-export GTK_THEME=Adwaita-dark # Change Evolution Mail theme
+alias vim=nvim
 export PATH="$HOME/.local/bin:$PATH"
-export GRB_LICENSE_FILE="/opt/gurobi_v1203/licenses/gurobi.lic"
-export LD_LIBRARY_PATH=/opt/gurobi_v1203/lib:$LD_LIBARY_PATH
+
+# opencode
+export PATH=/home/hellscoffe/.opencode/bin:$PATH
 export HSA_OVERRIDE_GFX_VERSION=10.3.0
-export TELEGRAM_BOT_TOKEN="8343716436:AAEqiiF76FgIHv--0KYo0WXXTbfYktY4gb0"
-export PATH="/opt/rocm/bin:$PATH"
-export PATH="/home/hellscoffe/.cargo/bin:$PATH"
-export PATH="/home/hellscoffe/Documents/OBSStudio/Recordings/whisper.cpp/build/bin:$PATH"
-export TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL=1
-export PATH="/opt/pCloud/:$PATH"
-export PATH=~/.npm-global/bin:$PATH
+
+# graphify: default to local Ollama backend (RX 6600, 8GB VRAM, ROCm)
+# qwen3-8b-noreason-16k = qwen3:8b with /no_think baked in + num_ctx 16384.
+# Switched from the 4096-ctx qwen3-8b-noreason on 2026-07-31: head-to-head
+# extraction test showed the 4k (and a 24k) variant hanging/timing out
+# completely (0 nodes), while -16k succeeded with the best edges-per-node
+# ratio of 5 local candidates tested. See ~/uocr/Modelfile for the
+# unrelated OCR model on the same GPU.
+export OLLAMA_API_KEY="local-placeholder"
+export OLLAMA_MODEL="qwen3-8b-noreason-16k"
+alias dnf="dnf --cacheonly"
+zstyle ':autocomplete::*:(dnf|sudo dnf):*' background no
