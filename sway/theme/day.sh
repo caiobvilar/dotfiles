@@ -21,6 +21,12 @@ ln -sfn ~/.config/swaylock/themes/day ~/.config/swaylock/config
 # Ironbar — symlink to day CSS (restarted below)
 ln -sfn ~/.config/ironbar/themes/day.css ~/.config/ironbar/style.css
 
+# Ironbar — swap tray icon theme (Papirus-Dark ships white/light tray icons
+# meant for dark panels; bluetooth/network/etc go invisible on the cream day
+# bar unless this matches the GTK icon theme picked below). Rewritten
+# in-place like the GTK CSS below, not symlinked.
+sed -i 's/^icon_theme = .*/icon_theme = "Papirus"/' ~/.config/ironbar/config.toml
+
 # GTK 3 — write CSS + signal
 cat > ~/.config/gtk-3.0/gtk.css << 'CSSEOF'
 @define-color accent_color #4A7C59;

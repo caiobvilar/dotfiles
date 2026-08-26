@@ -174,13 +174,20 @@ button {
 /* Same story as .notifications .button above: the transparent background-color on the
    .tray container itself doesn't reach the individual icon buttons -- each one
    (.tray .item) is its own GTK button that was still falling back to a default white
-   button background/shadow behind every tray icon. */
+   button background/shadow behind every tray icon.
+
+   Unlike night.css, this one isn't transparent: most tray apps (blueman-applet,
+   nm-applet, ...) ship fixed white/light SNI pixmap icons rather than resolving an
+   icon by name through icon_theme, so they don't repaint for day mode and go
+   near-invisible on the cream bar. Give each icon its own small dark backdrop so it
+   keeps contrast regardless of what color the app decided to draw it. */
 .tray .item {
-    background-color: transparent;
+    background-color: rgba(45, 58, 46, 0.55);
     background-image: none;
     border: none;
     box-shadow: none;
     padding: 0 4px;
+    border-radius: 6px;
 }
 
 /* Power-menu popup. The popup window gets the module class with a
