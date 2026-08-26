@@ -236,6 +236,11 @@ mode "resize" {
     bindsym Escape mode "default"
 }
 bindsym $mod+r mode "resize"
+
+# Theme switching (day/night)
+bindsym $mod+Shift+t exec ~/.config/sway/theme/day.sh
+bindsym $mod+Shift+n exec ~/.config/sway/theme/night.sh
+
 # Bar config
 # Bar is provided by ironbar (~/.config/ironbar/config.toml), launched below
 # via exec_always, same as waybar used to be. Not a sway `bar {}` block --
@@ -247,6 +252,8 @@ exec_always --no-startup-id sh -c "killall -9 ironbar 2>/dev/null; sleep 0.5; ir
 ### Start Ibus
 #exec_always --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec_always --no-startup-id swaync
+# Gammastep — day/night color temp + theme switching via hooks
+exec gammastep
 # Custom stuff
 # Custom stuff
 # 

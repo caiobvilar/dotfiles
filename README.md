@@ -122,18 +122,30 @@ cd ~/Development/dotfiles
 mkdir -p ~/.config
 ln -sf ~/Development/dotfiles/sway/config      ~/.config/sway/config
 ln -sf ~/Development/dotfiles/sway/scripts     ~/.config/sway/scripts
+ln -sf ~/Development/dotfiles/sway/theme       ~/.config/sway/theme
 mkdir -p ~/.config/sway/config.d
 ln -sf ~/Development/dotfiles/sway/config.d/90-swayidle.conf ~/.config/sway/config.d/90-swayidle.conf
 ln -sf ~/Development/dotfiles/ironbar/config.toml  ~/.config/ironbar/config.toml
 ln -sf ~/Development/dotfiles/ironbar/style.css    ~/.config/ironbar/style.css
-ln -sf ~/Development/dotfiles/alacritty/alacritty.toml ~/.config/alacritty/alacritty.toml
-ln -sf ~/Development/dotfiles/rofi/config.rasi     ~/.config/rofi/config.rasi
-ln -sf ~/Development/dotfiles/swaylock/config      ~/.config/swaylock/config
+
+# Theme-aware configs (symlinks to night variant by default)
+mkdir -p ~/.config/alacritty/themes
+cp -r ~/Development/dotfiles/alacritty/themes/* ~/.config/alacritty/themes/
+ln -sf ~/.config/alacritty/themes/night.toml ~/.config/alacritty/alacritty.toml
+mkdir -p ~/.config/rofi/themes
+cp -r ~/Development/dotfiles/rofi/themes/* ~/.config/rofi/themes/
+ln -sf ~/.config/rofi/themes/night.rasi ~/.config/rofi/config.rasi
+mkdir -p ~/.config/swaylock/themes
+cp -r ~/Development/dotfiles/swaylock/themes/* ~/.config/swaylock/themes/
+ln -sf ~/.config/swaylock/themes/night ~/.config/swaylock/config
+
 ln -sf ~/Development/dotfiles/zsh/.zshrc           ~/.zshrc
 ln -sf ~/Development/dotfiles/vim/.vimrc           ~/.vimrc
 
-mkdir -p ~/.config/gammastep ~/.config/io.github.zefr0x.ianny
+mkdir -p ~/.config/gammastep/hooks ~/.config/io.github.zefr0x.ianny
 ln -sf ~/Development/dotfiles/gammastep/config.ini ~/.config/gammastep/config.ini
+cp ~/Development/dotfiles/gammastep/hooks/period-switch.sh ~/.config/gammastep/hooks/period-switch.sh
+chmod +x ~/.config/gammastep/hooks/period-switch.sh
 ln -sf ~/Development/dotfiles/ianny/config.toml    ~/.config/io.github.zefr0x.ianny/config.toml
 
 mkdir -p ~/.config/gtk-3.0 ~/.config/gtk-4.0
@@ -196,31 +208,53 @@ with its own default.
   if the new machine is in a different location — update `lat`/`lon` there.
 * **ROCm / GPU env vars** — `zsh/.zshrc` sets `HSA_OVERRIDE_GFX_VERSION` and ROCm-related paths
   tuned for this machine's AMD GPU (RX 6600 XT). Adjust or drop these on different hardware.
-* **`OLLAMA_MODEL=qwen3-8b-noreason-16k`** (used by the `graphify` skill, see the global
-  `CLAUDE.md`) isn't a model you can `ollama pull` — it's a local derivative. Rebuild it:
+* **`OLLAMA_MODEL=ministral-3-16k`** (used by the `graphify` skill, see the global
+  `CLAUDE.md`) — pull it with:
   ```sh
-  ollama pull qwen3:8b
-  printf 'FROM qwen3:8b\nSYSTEM "/no_think"\nPARAMETER num_ctx 16384\nPARAMETER temperature 0.1\n' > Modelfile
-  ollama create qwen3-8b-noreason-16k -f Modelfile
+  ollama pull ministral-3-16k
   ```
 * **`swaync`** — this repo's `swaync/config.json` is not currently linked/active on the live
   host (swaync runs on its packaged defaults) — this mirrors that; don't link it unless you
   deliberately want to diverge from what's live now.
 
-### Visual theme (cyberpunk purple)
+### Visual theme (day/night switching)
 
-The desktop uses a unified cyberpunk purple palette extracted from the wallpaper
-(`Pictures/Backgrounds/purple_cyberpunk_4k.jpg`). This is applied consistently across:
+The desktop has two themes that switch automatically via gammastep hooks at sunrise/sunset:
 
-- **Sway borders** — magenta accent (`#a020c0`), defined in `sway/config`
-- **Ironbar** — `ironbar/style.css` with purple surfaces and magenta accents
-- **Alacritty** — cyberpunk color scheme in `alacritty/alacritty.toml`
-- **Neovim** — Cyberdream.nvim theme (`nvim/lua/plugins/cyberdream.lua`)
-- **GTK 3/4** — Adwaita-dark with purple accent overrides (`gtk-3.0/`, `gtk-4.0/`)
-- **Cursor** — phinger-cursors-dark (installed by `install-apps.sh`)
-- **Icons** — Papirus-Dark (installed via dnf)
-- **Rofi** — cyberpunk purple launcher theme (`rofi/config.rasi`)
-- **Swaylock** — purple lock screen (`swaylock/config`)
+- **Night** (default): cyberpunk purple palette from `purple_cyberpunk_4k.jpg`
+- **Day**: solarpunk palette — warm cream backgrounds, botanical green accents, solar gold
+
+Each app has theme variants in `themes/` subdirectories. The main config files are symlinks
+to the active variant (created during "Link configs" step).
+
+**Theme files:**
+
+| App | Night | Day |
+|---|---|---|
+| Alacritty | `alacritty/themes/night.toml` | `alacritty/themes/day.toml` |
+| Rofi | `rofi/themes/night.rasi` | `rofi/themes/day.rasi` |
+| Swaylock | `swaylock/themes/night` | `swaylock/themes/day` |
+| GTK 3/4 | Written by `sway/theme/night.sh` | Written by `sway/theme/day.sh` |
+
+**Switching mechanism:**
+
+- **Automatic**: `gammastep/hooks/period-switch.sh` fires on period changes (sunrise → day, sunset → night)
+- **Manual**: `$mod+Shift+t` (day) / `$mod+Shift+n` (night) keybindings in sway
+
+**Applied consistently across:**
+
+- **Sway borders** — green accent (`#4A7C59`) during day, magenta (`#a020c0`) at night
+- **Alacritty** — solarpunk or cyberpunk terminal palette (live reload via `alacritty msg`)
+- **Rofi** — theme variant via symlink
+- **Swaylock** — theme variant via symlink
+- **GTK 3/4** — CSS rewritten by theme scripts + `Papirus` (day) / `Papirus-Dark` (night) icons
+- **Wallpaper** — `solarpunk_4k.jpg` (day) / `purple_cyberpunk_4k.jpg` (night)
+- **Ironbar** — restarted by theme scripts to pick up new CSS
+- **Neovim** — always dark (Cyberdream.nvim), unchanged
+
+**Note:** You need both wallpapers in `~/Pictures/Backgrounds/`:
+- `purple_cyberpunk_4k.jpg` (night)
+- `solarpunk_4k.jpg` (day)
 
 ### Legacy / not used on this host
 

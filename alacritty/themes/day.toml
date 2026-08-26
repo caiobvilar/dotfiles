@@ -1,0 +1,64 @@
+#ME/.config/alacritty/themes/day.toml
+# Solarpunk palette — warm, botanical, sunny
+
+[window]
+
+opacity = 0.92
+
+padding.x = 10
+padding.y = 10
+
+decorations = "Full"
+decorations_theme_variant = "Light"
+
+[font]
+
+normal.family = "JetBrainsMono Nerd Font Mono"
+bold.family = "JetBrainsMono Nerd Font Mono"
+italic.family = "JetBrainsMono Nerd Font Mono"
+bold_italic.family = "JetBrainsMono Nerd Font Mono"
+
+size = 10.0
+
+# Solarpunk palette — warm cream + botanical greens + solar gold
+[colors.primary]
+background = "#FAF6EE"
+foreground = "#2D3A2E"
+
+[cursor]
+text = "#FAF6EE"
+cursor = "#4A7C59"
+
+[colors.selection]
+text = "#2D3A2E"
+background = "#52B788"
+
+[colors.normal]
+black   = "#2D3A2E"
+red     = "#C07060"
+green   = "#4A7C59"
+yellow  = "#D4A03C"
+blue    = "#7FBBB3"
+magenta = "#C17F59"
+cyan    = "#52B788"
+white   = "#FAF6EE"
+
+[colors.bright]
+black   = "#6B7A65"
+red     = "#C07060"
+green   = "#52B788"
+yellow  = "#D4A03C"
+blue    = "#7FBBB3"
+magenta = "#C17F59"
+cyan    = "#4A7C59"
+white   = "#2D3A2E"
+
+[colors.dim]
+black   = "#C8C2B5"
+red     = "#C17F59"
+green   = "#6B7A65"
+yellow  = "#DBBC7F"
+blue    = "#7FBBB3"
+magenta = "#C17F59"
+cyan    = "#6B7A65"
+white   = "#EDE8DD"

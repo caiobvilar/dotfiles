@@ -135,7 +135,7 @@ Not handled by this script (see README.md "Fresh install" section for details):
   - Cursor/GTK theme activation (environment.d/cursor.conf + ~/.icons/default/index.theme
     are symlinked in the "Link configs" step; reboot or re-login to apply)
   - ianny (manually built binary, not packaged)
-  - the qwen3-8b-noreason-16k Ollama model (must be rebuilt locally, see README)
+  - the ministral-3-16k Ollama model (must be pulled locally: ollama pull ministral-3-16k)
   - Dropbox (available on flathub as com.dropbox.Client if you want it; deliberately
     left out of this script)
 EOF

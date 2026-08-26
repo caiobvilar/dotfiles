@@ -115,13 +115,11 @@ export PATH=/home/hellscoffe/.opencode/bin:$PATH
 export HSA_OVERRIDE_GFX_VERSION=10.3.0
 
 # graphify: default to local Ollama backend (RX 6600, 8GB VRAM, ROCm)
-# qwen3-8b-noreason-16k = qwen3:8b with /no_think baked in + num_ctx 16384.
-# Switched from the 4096-ctx qwen3-8b-noreason on 2026-07-31: head-to-head
-# extraction test showed the 4k (and a 24k) variant hanging/timing out
-# completely (0 nodes), while -16k succeeded with the best edges-per-node
-# ratio of 5 local candidates tested. See ~/uocr/Modelfile for the
+# ministral-3-16k: native function calling, 256k context, zero-failure reliability.
+# Adopted 2026-08-24 after benchmark: 10min, 42 nodes/43 edges (vs qwen3-8b-noreason-16k's
+# 18min, 24 nodes with timeouts). See ~/uocr/Modelfile for the
 # unrelated OCR model on the same GPU.
 export OLLAMA_API_KEY="local-placeholder"
-export OLLAMA_MODEL="qwen3-8b-noreason-16k"
+export OLLAMA_MODEL="ministral-3-16k"
 alias dnf="dnf --cacheonly"
 zstyle ':autocomplete::*:(dnf|sudo dnf):*' background no

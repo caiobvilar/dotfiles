@@ -1,0 +1,85 @@
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    icon-theme: "Papirus";
+    font: "JetBrains Mono 12";
+    display-drun: " Apps";
+    display-run: " Run";
+    display-window: " Windows";
+    drun-display-format: "{name}";
+    terminal: "alacritty";
+}
+
+* {
+    bg:     #FAF6EEee;
+    bg-alt: #EDE8DDcc;
+    fg:     #2D3A2E;
+    accent: #4A7C59;
+    urgent: #C07060;
+    selected: #52B788;
+
+    background-color: transparent;
+    text-color:       @fg;
+    margin:  0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    background-color: @bg;
+    border: 2px;
+    border-color: @accent;
+    border-radius: 8px;
+    padding: 20px;
+    width: 40%;
+}
+
+inputbar {
+    spacing: 8px;
+    padding: 8px 12px;
+    background-color: @bg-alt;
+    border-radius: 6px;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    text-color: @accent;
+}
+
+entry {
+    placeholder: "Search...";
+    placeholder-color: #6B7A65;
+}
+
+listview {
+    lines:   8;
+    columns: 1;
+    spacing: 4px;
+    padding: 8px 0 0 0;
+    fixed-height: true;
+}
+
+element {
+    padding: 8px 12px;
+    border-radius: 4px;
+    spacing: 8px;
+}
+
+element selected.normal {
+    background-color: @selected;
+    text-color:       @fg;
+}
+
+element active {
+    text-color: @accent;
+}
+
+element urgent {
+    text-color: @urgent;
+}
+
+message {
+    padding: 8px 12px;
+    border: 0 0 1px 0;
+    border-color: @accent;
+}
