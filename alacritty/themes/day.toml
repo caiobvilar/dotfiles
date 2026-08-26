@@ -3,7 +3,7 @@
 
 [window]
 
-opacity = 0.92
+opacity = 0.98
 
 padding.x = 10
 padding.y = 10
@@ -21,11 +21,17 @@ bold_italic.family = "JetBrainsMono Nerd Font Mono"
 size = 10.0
 
 # Solarpunk palette — warm cream + botanical greens + solar gold
+[colors]
+# Bold ANSI colors resolve to the bright.* row instead of just bolding the
+# normal.* one — keeps bold-white prompts (e.g. oh-my-zsh "darkblood")
+# legible: bright.white is dark ink here, not cream-on-cream.
+draw_bold_text_with_bright_colors = true
+
 [colors.primary]
 background = "#FAF6EE"
 foreground = "#2D3A2E"
 
-[cursor]
+[colors.cursor]
 text = "#FAF6EE"
 cursor = "#4A7C59"
 
@@ -34,14 +40,14 @@ text = "#2D3A2E"
 background = "#52B788"
 
 [colors.normal]
-black   = "#2D3A2E"
+black   = "#FAF6EE"
 red     = "#C07060"
 green   = "#4A7C59"
 yellow  = "#D4A03C"
 blue    = "#7FBBB3"
 magenta = "#C17F59"
 cyan    = "#52B788"
-white   = "#FAF6EE"
+white   = "#2D3A2E"
 
 [colors.bright]
 black   = "#6B7A65"
