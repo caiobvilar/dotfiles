@@ -9,8 +9,8 @@ swaymsg client.unfocused        '#C8C2B5' '#C8C2B5' '#6B7A65' '#EDE8DD'
 swaymsg client.urgent           '#C07060' '#C07060' '#FAF6EE' '#C07060'
 swaymsg client.placeholder      '#FAF6EE' '#FAF6EE' '#2D3A2E'
 
-# Alacritty — live reload via IPC
-alacritty msg config --config-file ~/.config/alacritty/themes/day.toml
+# Alacritty — auto-reloads when symlink target changes
+ln -sfn ~/.config/alacritty/themes/day.toml ~/.config/alacritty/alacritty.toml
 
 # Rofi — write config (app reads at launch)
 ln -sfn ~/.config/rofi/themes/day.rasi ~/.config/rofi/config.rasi
