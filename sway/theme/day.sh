@@ -18,6 +18,9 @@ ln -sfn ~/.config/rofi/themes/day.rasi ~/.config/rofi/config.rasi
 # Swaylock — write config (app reads at lock time)
 ln -sfn ~/.config/swaylock/themes/day ~/.config/swaylock/config
 
+# Ironbar — symlink to day CSS (restarted below)
+ln -sfn ~/.config/ironbar/themes/day.css ~/.config/ironbar/style.css
+
 # GTK 3 — write CSS + signal
 cat > ~/.config/gtk-3.0/gtk.css << 'CSSEOF'
 @define-color accent_color #4A7C59;

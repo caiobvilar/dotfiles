@@ -1,0 +1,223 @@
+* {
+    font-family: "JetBrainsMono Nerd Font", sans-serif;
+    font-size: 13px;
+}
+
+/* Solarpunk palette (matches sway/theme/day.sh, gtk-*.0/gtk.css day variant):
+   #FAF6EE (warm cream bg), #EDE8DD (surface/headerbar), #E5DFD3 (card/chip),
+   #4A7C59 (botanical green accent), #52B788 (accent bg / hover), #2D3A2E
+   (dark green-black text), #5C6E58 (muted secondary text), #C07060 (urgent/
+   terracotta). */
+window {
+    background-color: #faf6eecc;
+    color: #2d3a2e;
+    min-height: 32px;
+}
+
+/* GTK's default theme (Adwaita) gives buttons/widgets a min-height that can
+   exceed the bar's configured height, forcing the whole window to grow --
+   this is what made the busiest bar (HDMI-A-1, workspace buttons + tray)
+   render taller than the simpler DP-1 bars. Reset it everywhere so content
+   shrinks to fit the bar instead of the bar growing to fit content. */
+.workspaces .item,
+.clock,
+.volume,
+.sysinfo,
+.script,
+.keyboard,
+.notifications,
+.label,
+.inhibit,
+.tray,
+.power-menu .power-btn {
+    min-height: 0;
+}
+
+/* Give every module some real breathing room -- the whole point of
+   switching off i3bar's protocol was to get a real CSS box model. */
+.item,
+button {
+    padding: 0 10px;
+    margin: 0 3px;
+    border-radius: 6px;
+}
+
+/* Workspaces. GTK4/libadwaita's default button style sets its own
+   background-image (gradient) + border + shadow that a plain
+   background-color override won't beat -- strip those explicitly or the
+   button stays stuck looking like a stock white GTK button. */
+.workspaces .item {
+    padding: 0 8px;
+    margin: 0 2px;
+    background-color: #e5dfd3;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    color: #2d3a2e;
+    border-radius: 6px;
+    min-height: 0;
+}
+
+.workspaces .item.focused {
+    background-color: #4a7c59;
+    background-image: none;
+    color: #ffffff;
+}
+
+.workspaces .item.urgent {
+    background-color: #c07060;
+    background-image: none;
+}
+
+/* Generic module chips: warm cream chip with a muted botanical-green text.
+   clock/volume/inhibit/keyboard/notifications/tray are all clickable GTK
+   buttons under the hood, so they need the same background-image/border/
+   box-shadow reset as the workspace buttons above, or they stay stuck
+   looking like stock white GTK buttons. */
+.clock,
+.volume,
+.sysinfo,
+.script,
+.keyboard,
+.notifications,
+.label,
+.inhibit,
+.tray,
+.power-menu #power-btn {
+    background-color: #e5dfd3;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    color: #5c6e58;
+    padding: 4px 12px;
+    margin: 0 4px;
+    border-radius: 6px;
+}
+
+.sysinfo .item {
+    padding: 0 4px;
+}
+
+/* Failed systemd units: red when there's a problem. The script module has
+   no per-state class the way waybar's custom JSON contract did, so this
+   just keeps the same neutral chip styling -- color-by-state would need
+   ironbar's `show_if`-driven module swap if wanted later. */
+.script {
+    min-width: 34px;
+}
+
+.inhibit {
+    min-width: 34px;
+}
+
+.notifications {
+    background-color: #ede8dd;
+}
+
+/* The visible chip is actually .notifications .button, a distinct inner GTK button --
+   the .notifications background-color above only colors the outer container, which has
+   no visible area of its own, so the inner button kept falling back to GTK's default
+   white button styling (same "stock white GTK button" issue noted for .workspaces .item
+   above, just not caught here originally since this button is nested one level deeper
+   than the other modules). Reset it the same way. */
+.notifications .button {
+    background-color: #ede8dd;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    color: #5c6e58;
+    padding: 0 12px;
+}
+
+/* The icon is the Nerd Font glyph string from config.toml's icons.* fields, rendered as
+   text in a GtkLabel inside .button -- font-size on .button itself doesn't reach it: the
+   top-of-file `* { font-size: 13px }` rule matches that label directly, and a direct match
+   always wins over an inherited value regardless of selector specificity. Has to be set on
+   the label itself to actually override it. */
+.notifications .button label {
+    /* The icon itself was never actually what got clipped at 28px -- it was the count
+       badge's own overlay riding above the button's top edge (fixed via margin-top on
+       .notifications .count below). 22px is comfortably readable within the 32px bar. */
+    font-size: 22px;
+}
+
+/* The unread-count badge (.notifications .count) is a separate GTK overlay widget,
+   not covered by the .notifications background/color reset above -- left unstyled it
+   falls back to GTK's default OSD-badge look: a near-white pill, which the light
+   `color: #5c6e58` text (inherited from the generic module-chip rule) would sit on
+   almost illegibly. Give it its own solid background instead of relying on
+   inherited/default colors, matching the accent used elsewhere (.workspaces
+   .item.focused, hover states). */
+.notifications .count {
+    background-color: #4a7c59;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 14px;
+    padding: 0 4px;
+    border-radius: 999px;
+    /* This overlay straddles the button's top-right corner by design (default GTK/Adwaita
+       OSD-badge placement) -- with the button sitting right at the bar's top edge (32px
+       window, no headroom), the top half of the badge pokes past the window bounds and
+       gets clipped. Push it down so it stays fully on-screen. */
+    margin-top: 6px;
+}
+
+.tray {
+    background-color: transparent;
+    padding: 0 8px;
+}
+
+/* Same story as .notifications .button above: the transparent background-color on the
+   .tray container itself doesn't reach the individual icon buttons -- each one
+   (.tray .item) is its own GTK button that was still falling back to a default white
+   button background/shadow behind every tray icon. */
+.tray .item {
+    background-color: transparent;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    padding: 0 4px;
+}
+
+/* Power-menu popup. The popup window gets the module class with a
+   popup- prefix (popup-power-menu), the bar button is #power-btn. */
+.power-menu #power-btn:hover {
+    background-color: #4a7c59;
+    color: #ffffff;
+}
+
+.popup-power-menu {
+    background-color: #faf6eef2;
+    color: #2d3a2e;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.popup-power-menu #header {
+    color: #2d3a2e;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-bottom: 1px solid #4a7c59;
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+}
+
+.popup-power-menu .power-btn {
+    background-color: #e5dfd3;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+    color: #5c6e58;
+    padding: 8px 14px;
+    margin: 0 4px;
+    border-radius: 6px;
+}
+
+.popup-power-menu .power-btn:hover {
+    background-color: #4a7c59;
+    color: #ffffff;
+}

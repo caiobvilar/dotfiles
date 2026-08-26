@@ -18,6 +18,9 @@ ln -sfn ~/.config/rofi/themes/night.rasi ~/.config/rofi/config.rasi
 # Swaylock — write config (app reads at lock time)
 ln -sfn ~/.config/swaylock/themes/night ~/.config/swaylock/config
 
+# Ironbar — symlink to night CSS (restarted below)
+ln -sfn ~/.config/ironbar/themes/night.css ~/.config/ironbar/style.css
+
 # GTK 3 — write CSS + signal
 cat > ~/.config/gtk-3.0/gtk.css << 'CSSEOF'
 @define-color accent_color #a020c0;
