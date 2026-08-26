@@ -46,16 +46,17 @@ workspace 2 output DP-1
 # Window configurations
 ### Idle configuration
 #
-# Example configuration:
+# Disabled on purpose (2026-08-11): this machine must never auto-lock, auto-DPMS-off,
+# or otherwise sleep on its own. The only way the screen turns off is the manual
+# $mod+l lock bind below (swaylock), which is untouched and independent of swayidle.
+# (The ironbar "inhibit" module is now a no-op decoration with no timeout left to
+# inhibit — its GTK portal-based lock never worked on this Fedora/sway setup anyway,
+# see chat history 2026-08-11.)
 #
-exec swayidle -w \
-         timeout 1800 '/home/hellscoffe/create_lock_img.sh ; swaylock -e -f -i /tmp/lockscreen.png' \
-         timeout 1800 'swaymsg "output \* dpms off"' \
-         resume 'swaymsg "output \* dpms on"'
-#
-# This will lock your screen after 30 minutes (1800 seconds) of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
+# exec swayidle -w \
+#          timeout 1800 'swaymsg -t get_tree | grep -q "\"application\": \"\(open\|visible\|fullscreen\)\"" || { /home/hellscoffe/create_lock_img.sh ; swaylock -e -f -i /tmp/lockscreen.png ; }' \
+#          timeout 1800 'swaymsg -t get_tree | grep -q "\"application\": \"\(open\|visible\|fullscreen\)\"" || swaymsg "output \* dpms off"' \
+#          resume 'swaymsg "output \* dpms on"'
 
 ### Input configuration
 #
@@ -89,6 +90,9 @@ for_window [app_id="zoom" title="Zoom Meeting(.*)?"] \
 
 #### QTCreator PhD App
 for_window [app_id="ROIGenerator"] floating enable, border normal
+
+#### Waybar calendar popup
+for_window [title="Waybar Calendar"] floating enable, sticky enable, border none
 ### Key bindings
 #
 # Basics:
@@ -233,19 +237,16 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 # Bar config
-#bar {
-#    swaybar_command waybar
-#}
+# Bar is provided by ironbar (~/.config/ironbar/config.toml), launched below
+# via exec_always, same as waybar used to be. Not a sway `bar {}` block --
+# ironbar is a standalone layer-shell client with its own per-output config.
 
 # Execs
 ## Startups
-exec_always --no-startup-id sh -c "killall -9 waybar 2>/dev/null; waybar -c ~/.config/waybar/config"
+exec_always --no-startup-id sh -c "killall -9 ironbar 2>/dev/null; sleep 0.5; ironbar"
 ### Start Ibus
 #exec_always --no-startup-id dunst --config ~/.config/dunst/dunstrc
 exec_always --no-startup-id swaync
-exec_always --no-startup-id gammastep -c ~/.config/gammastep/config.ini
-exec_always --no-startup-id gammastep-indicator -l -5.929111:-35.209500
-exec_always --no-startup-id sh -c "pkill -x ianny 2>/dev/null; ianny"
 # Custom stuff
 # Custom stuff
 # 
@@ -254,7 +255,10 @@ exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DE
 # pop GUI dialogs (zenity) - without this, WAYLAND_DISPLAY/DISPLAY are invisible
 # to units started by systemd --user, and any GUI call from them fails silently.
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
-exec_always --no-startup-id sh -c 'python3 /home/hellscoffe/.config/sway/scripts/k10_screenshot.py >> /tmp/k10_screenshot.log 2>&1'
+exec_always --no-startup-id sh -c 'bash /home/hellscoffe/.config/sway/scripts/k10_screenshot_wrapper.sh'
+# Load SSH keys into the agent at startup (gallery_vps silently, id_ed25519 via
+# zenity passphrase dialog - SSH_AUTH_SOCK comes from environment.d/ssh-agent.conf).
+exec_always --no-startup-id sh -c 'SSH_ASKPASS=/home/hellscoffe/.local/bin/opencode-askpass SSH_ASKPASS_REQUIRE=force ssh-add ~/.ssh/gallery_vps ~/.ssh/id_ed25519'
 
 # Include configs from 3 locations:
 #  - /usr/share/sway/config.d
@@ -281,7 +285,12 @@ include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "
 # Gaps and borders - MUST BE AFTER INCLUDE TO OVERRIDE
 gaps inner 3
 gaps outer 3
-default_border none
+default_border pixel 2
 hide_edge_borders --i3 smart
 smart_gaps on
 titlebar_border_thickness 0
+client.focused #a020c0 #a020c0 #f0e6f7 #8020a0
+client.focused_inactive #200040 #200040 #d7bfe6 #602080
+client.unfocused #120a24 #120a24 #808080 #200040
+client.urgent #d040f0 #d040f0 #f0e6f7 #d040f0
+client.placeholder #0a0018 #0a0018 #f0e6f7

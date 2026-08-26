@@ -30,14 +30,58 @@ decorations_theme_variant = "Dark" # "Light"
 
 [font]
 
-normal.family = "Consolas"
-bold.family = "Consolas"
-italic.family = "Consolas"
-bold_italic.family = "Consolas"
+# JetBrainsMono Nerd Font (installed in ~/.local/share/fonts).
+# Previously "Consolas" — not installed on this Fedora box, so fontconfig
+# silently fell back to Noto Sans Mono, which lacks powerline/nerd icons,
+# check/cross marks, warning, etc. NFM (Mono) variant keeps ALL glyphs
+# single-width, so icons don't break column alignment.
+normal.family = "JetBrainsMono Nerd Font Mono"
+bold.family = "JetBrainsMono Nerd Font Mono"
+italic.family = "JetBrainsMono Nerd Font Mono"
+bold_italic.family = "JetBrainsMono Nerd Font Mono"
 
 size = 10.0
 
-# Tip: for inspiration, look for values in the source code files of your favorite VS Code themes, and use the color picker in
-# Google to test colors before setting a value, or simply using an editor such as VS Code where colors are displayed in a 
-# small box when a HEX is detected by the editor.
+# Cyberpunk palette extracted from purple_cyberpunk_4k.jpg
+[colors.primary]
+background = "#0a0018"
+foreground = "#f0e6f7"
+
+[colors.cursor]
+text = "#0a0018"
+cursor = "#a020c0"
+
+[colors.selection]
+text = "#f0e6f7"
+background = "#602080"
+
+[colors.normal]
+black   = "#0a0018"
+red     = "#d040f0"
+green   = "#a020c0"
+yellow  = "#c040e0"
+blue    = "#8020a0"
+magenta = "#d040f0"
+cyan    = "#9020b0"
+white   = "#f0e6f7"
+
+[colors.bright]
+black   = "#200040"
+red     = "#e060ff"
+green   = "#c040e0"
+yellow  = "#d060f0"
+blue    = "#a020c0"
+magenta = "#e060ff"
+cyan    = "#b040d0"
+white   = "#f0e6f7"
+
+[colors.dim]
+black   = "#050010"
+red     = "#8020a0"
+green   = "#602080"
+yellow  = "#702090"
+blue    = "#501870"
+magenta = "#8020a0"
+cyan    = "#602080"
+white   = "#a080c0"
 

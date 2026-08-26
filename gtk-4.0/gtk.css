@@ -1,0 +1,14 @@
+/* Cyberpunk purple accent overrides for Adwaita-dark */
+@define-color accent_color #a020c0;
+@define-color accent_bg_color #8020a0;
+@define-color accent_fg_color #f0e6f7;
+@define-color window_bg_color #0a0018;
+@define-color window_fg_color #f0e6f7;
+@define-color headerbar_bg_color #120a24;
+@define-color headerbar_fg_color #f0e6f7;
+@define-color card_bg_color #200040;
+@define-color card_fg_color #f0e6f7;
+@define-color dialog_bg_color #120a24;
+@define-color dialog_fg_color #f0e6f7;
+@define-color popover_bg_color #120a24;
+@define-color popover_fg_color #f0e6f7;

@@ -1,0 +1,162 @@
+# ironbar config, replacing swaybar (see ~/.claude/plans/lets-replace-my-waybar-warm-tarjan.md
+# for the full migration rationale). Ports the module set that used to live in
+# ~/.config/sway/statusbar/status.py onto ironbar's native modules wherever
+# possible, falling back to inline embedded scripts (ported straight from the
+# original pre-swaybar waybar config's `sensors | grep/awk` one-liners) for
+# the handful of things with no native equivalent (fan RPMs, GPU/CPU power).
+
+icon_theme = "Papirus-Dark"
+
+[monitors]
+
+# --- HDMI-A-1: primary bar, full module set -------------------------------
+[monitors."HDMI-A-1"]
+name = "hdmi-main"
+position = "bottom"
+height = 32
+
+[[monitors."HDMI-A-1".start]]
+type = "workspaces"
+
+[[monitors."HDMI-A-1".end]]
+type = "clock"
+format = "%H:%M -- %A, %d/%m/%Y"
+
+[[monitors."HDMI-A-1".end]]
+type = "volume"
+
+[[monitors."HDMI-A-1".end]]
+type = "sys_info"
+format = [
+    "{cpu_percent}% ",
+    "{memory_percent}% ",
+    " {temp_c@k10temp Tctl}°C",
+]
+
+[monitors."HDMI-A-1".end.interval]
+cpu = 1
+memory = 1
+temps = 1
+
+[[monitors."HDMI-A-1".end]]
+type = "script"
+cmd = "/home/hellscoffe/.config/waybar/scripts/failed-units.sh"
+mode = "poll"
+interval = 30000
+on_click_left = "!/home/hellscoffe/.config/waybar/scripts/systemd-user-services.sh"
+
+[[monitors."HDMI-A-1".end]]
+type = "keyboard"
+
+[[monitors."HDMI-A-1".end]]
+type = "notifications"
+
+[[monitors."HDMI-A-1".end]]
+type = "label"
+label = "CPU {{poll:2000:bash -c 'a=$(cat /sys/class/powercap/intel-rapl:0/energy_uj); sleep 0.5; b=$(cat /sys/class/powercap/intel-rapl:0/energy_uj); echo \"scale=2; ($b-$a)/500000\" | bc'}} W"
+
+[[monitors."HDMI-A-1".end]]
+type = "tray"
+icon_size = 20
+
+# Power menu: ports the old waybar custom/power swaynag menu (Shutdown /
+# Restart / Logout / Hibernate) onto a native ironbar popup. Clicking the
+# bar button toggles the popup; shell commands need the "!" prefix.
+[[monitors."HDMI-A-1".end]]
+type = "custom"
+name = "power-menu"
+class = "power-menu"
+
+[[monitors."HDMI-A-1".end.bar]]
+type = "button"
+name = "power-btn"
+label = "󰐥"
+on_click = "popup:toggle"
+
+[[monitors."HDMI-A-1".end.popup]]
+type = "box"
+orientation = "vertical"
+
+[[monitors."HDMI-A-1".end.popup.widgets]]
+type = "label"
+label = "Power"
+name = "header"
+
+[[monitors."HDMI-A-1".end.popup.widgets]]
+type = "box"
+
+[[monitors."HDMI-A-1".end.popup.widgets.widgets]]
+type = "button"
+class = "power-btn"
+label = "󰐥 Shutdown"
+on_click = "!shutdown -h now"
+
+[[monitors."HDMI-A-1".end.popup.widgets.widgets]]
+type = "button"
+class = "power-btn"
+label = "󰜉 Restart"
+on_click = "!shutdown -r now"
+
+[[monitors."HDMI-A-1".end.popup.widgets.widgets]]
+type = "button"
+class = "power-btn"
+label = " Logout"
+on_click = "!swaymsg exit"
+
+[[monitors."HDMI-A-1".end.popup.widgets.widgets]]
+type = "button"
+class = "power-btn"
+label = "󰒲 Hibernate"
+on_click = "!systemctl hibernate"
+
+# --- DP-1: top bar (minimal) + bottom bar (sensor strip) ------------------
+[[monitors."DP-1"]]
+name = "dp1-top"
+position = "top"
+height = 32
+
+[[monitors."DP-1".start]]
+type = "workspaces"
+
+[[monitors."DP-1".end]]
+type = "clock"
+format = "%H:%M -- %A, %d/%m/%Y"
+
+[[monitors."DP-1".end]]
+type = "keyboard"
+
+[[monitors."DP-1"]]
+name = "dp1-bottom"
+position = "bottom"
+height = 32
+
+[[monitors."DP-1".end]]
+type = "label"
+label = "GPU {{poll:1000:sensors | grep 'PPT:' | head -1 | awk '{print $2}'}} W"
+
+[[monitors."DP-1".end]]
+type = "label"
+label = "GPU 󰈐 {{poll:1000:sensors | grep 'fan1:' | sed -n '2p' | awk '{print $2}'}} RPM"
+
+[[monitors."DP-1".end]]
+type = "sys_info"
+format = ["GPU {temp_c@amdgpu edge}°C"]
+
+[monitors."DP-1".end.interval]
+temps = 1
+
+[[monitors."DP-1".end]]
+type = "label"
+label = "AIO 󰈐 {{poll:1000:sensors | grep 'fan6:' | awk '{print $2}'}} RPM"
+
+[[monitors."DP-1".end]]
+type = "label"
+label = "Rear 󰈐 {{poll:1000:sensors | grep 'fan1:' | sed -n '1p' | awk '{print $2}'}} RPM"
+
+[[monitors."DP-1".end]]
+type = "label"
+label = "Front D 󰈐 {{poll:1000:sensors | grep 'fan3:' | sed -n '1p' | awk '{print $2}'}} RPM"
+
+[[monitors."DP-1".end]]
+type = "label"
+label = "Front U 󰈐 {{poll:1000:sensors | grep 'fan4:' | sed -n '1p' | awk '{print $2}'}} RPM"
