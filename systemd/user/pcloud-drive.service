@@ -1,0 +1,25 @@
+[Unit]
+Description=pCloud Drive
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=exec
+ExecStart=/home/hellscoffe/.config/pcloud/pcloud-launcher.sh
+Restart=on-failure
+RestartSec=30
+StartLimitBurst=5
+StartLimitIntervalSec=300
+
+# OOM protection: lowest score = least likely to be killed
+OOMScoreAdjust=-500
+
+# Memory limits: allow normal operation but prevent runaway
+MemoryMax=1G
+MemoryHigh=800M
+
+# Graceful shutdown for FUSE AppImage
+TimeoutStopSec=15
+
+[Install]
+WantedBy=graphical-session.target

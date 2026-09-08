@@ -1,0 +1,12 @@
+[Unit]
+Description=pCloud continuous sync
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/hellscoffe/bin/continuous_sync.sh
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=default.target
